@@ -19,13 +19,6 @@ export async function GET(req: any) {
     );
   }
 
-  if (state !== cookieStore.get("sso_state")?.value) {
-    return Response.json(
-      { status: false, message: "State not match" },
-      { status: 400 },
-    );
-  }
-
   const userinfo = await AccessToken(code);
   console.log(userinfo);
   if (userinfo.response.status) {
