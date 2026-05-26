@@ -7,7 +7,6 @@ export async function GET(req: any) {
   const { host, protocol, searchParams } = new URL(req.url);
   const code = searchParams.get("code");
   // const scope = searchParams.get("scope");
-  const state = searchParams.get("state");
   const cookieStore = await cookies();
 
   const fullHost = `${protocol}//${host}`; // Contoh: http://localhost:3000
