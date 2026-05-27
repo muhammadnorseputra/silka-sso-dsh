@@ -1,7 +1,7 @@
 "use server";
 
 import { cookies } from "next/headers";
-import RevokeToken from "@/data/revoke-token";
+import RevokeToken, { RevokeTokenChannel } from "@/data/revoke-token";
 import { AES, enc } from "crypto-js";
 import { jwtDecode, JwtPayload } from "jwt-decode";
 
@@ -31,6 +31,20 @@ export async function RevokeAccess() {
 
   cookieStore.delete("sso_token");
   cookieStore.delete("sso_code");
+  return {
+    status: revoke.response.status,
+    message: revoke.response.message,
+  };
+}
+
+export async function BackChannel() {
+  const cookieStore = await cookies();
+
+  // access_token
+  const accessToken = cookieStore.get("sso_token")?.value as string;
+
+  const revoke = await RevokeTokenChannel(accessToken);
+
   return {
     status: revoke.response.status,
     message: revoke.response.message,

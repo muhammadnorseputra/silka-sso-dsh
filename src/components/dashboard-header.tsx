@@ -10,7 +10,7 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from "@heroui/react";
-import { RevokeAccess } from "@/actions/revoke-access";
+import { BackChannel, RevokeAccess } from "@/actions/revoke-access";
 import toast from "react-hot-toast";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -54,16 +54,17 @@ export function DashboardHeader({ user }: { user: any }) {
               key="logout"
               color="danger"
               onPress={() =>
-                toast.promise(RevokeAccess(), {
-                  loading: "Processing",
+                toast.promise(BackChannel(), {
+                  loading: "Processing ...",
                   success: (result) => {
+                    console.log(result);
                     if (!result.status) {
                       return result.message;
                     }
-                    window.location.href =
-                      process.env.NEXT_PUBLIC_LOGOUT_URL ||
-                      "http://localhost:3000";
-                    return result.message || "Logged out successfully.";
+                    // window.location.href =
+                    //   process.env.NEXT_PUBLIC_LOGOUT_URL ||
+                    //   "http://localhost:3000";
+                    return result.message;
                   },
                   error: (error) => {
                     return (

@@ -25,3 +25,30 @@ export default async function RevokeToken(uid: string, access_token: string) {
     };
   }
 }
+
+export async function RevokeTokenChannel(sso_token: string) {
+  try {
+    const response = await fetch(
+      `http://localhost:3000/api/sso/backchannel-logout`,
+      {
+        method: "POST",
+        cache: "no-store",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ logout_token: sso_token }),
+      },
+    );
+    const data = await response.json();
+    return {
+      response: data,
+    };
+  } catch (error) {
+    return {
+      response: {
+        status: false,
+        message: `Gagal menghubungi server pusat (${error})`,
+      },
+    };
+  }
+}

@@ -19,13 +19,12 @@ export async function GET(req: any) {
   }
 
   const userinfo = await AccessToken(code);
-  console.log(userinfo);
   if (userinfo.response.status) {
     const tokenEnkripsi = AES.encrypt(
       userinfo.response.access_token,
       process.env.KEY_PASSPHRASE as string,
     );
-    // ACCESS TOKEN
+    // ACCESS TOKEN ENKRIPSI
     cookieStore.set({
       name: "sso_token",
       value: tokenEnkripsi.toString(),
