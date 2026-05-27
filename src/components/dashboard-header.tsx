@@ -16,7 +16,7 @@ import toast from "react-hot-toast";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function DashboardHeader({ user }: { user: any }) {
   return (
-    <header className="flex items-center justify-between border-b dark:border-gray-800 px-6 py-4">
+    <header className="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 px-6 py-4">
       <div className="flex items-center">
         <Input
           type="search"
@@ -54,16 +54,16 @@ export function DashboardHeader({ user }: { user: any }) {
               key="logout"
               color="danger"
               onPress={() =>
-                toast.promise(BackChannel(), {
+                toast.promise(RevokeAccess(), {
                   loading: "Processing ...",
                   success: (result) => {
                     console.log(result);
                     if (!result.status) {
                       return result.message;
                     }
-                    // window.location.href =
-                    //   process.env.NEXT_PUBLIC_LOGOUT_URL ||
-                    //   "http://localhost:3000";
+                    window.location.href =
+                      process.env.NEXT_PUBLIC_LOGOUT_URL ||
+                      "http://localhost:3000";
                     return result.message;
                   },
                   error: (error) => {

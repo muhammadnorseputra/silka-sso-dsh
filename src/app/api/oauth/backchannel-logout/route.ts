@@ -1,5 +1,8 @@
+"use server";
+
 import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
+import { clearSession } from "@/services/session";
 
 const LOGOUT_SECRET_KEY = process.env.NEXT_PUBLIC_LOGOUT_SECRET_KEY as string;
 
@@ -18,6 +21,8 @@ export async function POST(request: Request) {
     // 2. Verifikasi token (sederhana, hanya cek kesamaan dengan secret key)
     const decyptedToken = jwt.verify(logout_token, LOGOUT_SECRET_KEY);
 
+    console.log("Decrypted Logout Token:", decyptedToken);
+
     if (!decyptedToken) {
       return NextResponse.json(
         { status: false, message: "Token tidak valid" },
@@ -31,8 +36,11 @@ export async function POST(request: Request) {
       message: "SSO Logout Berhasil",
     });
 
-    response.cookies.delete("sso_token");
-    response.cookies.delete("sso_code");
+    await clearSession();
+    console.log(
+      "Cookies 'sso_token' telah dihapus",
+      response.cookies.get("sso_token"),
+    );
     return response;
   } catch (error) {
     return NextResponse.json(

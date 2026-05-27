@@ -2,13 +2,16 @@
 "use client";
 
 import { HeroUIProvider } from "@heroui/react";
+import { ThemeProvider } from "next-themes";
 import { Toaster } from "react-hot-toast";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <HeroUIProvider>
-      {children}
-      <Toaster />
-    </HeroUIProvider>
+    <ThemeProvider attribute="class">
+      <HeroUIProvider>
+        {children}
+        <Toaster />
+      </HeroUIProvider>
+    </ThemeProvider>
   );
 }

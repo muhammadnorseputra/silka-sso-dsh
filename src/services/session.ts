@@ -3,9 +3,9 @@ import { jwtDecode, JwtPayload } from "jwt-decode";
 import { AES, enc } from "crypto-js";
 
 export default async function getSession() {
-  const getCookie = cookies();
+  const getCookie = await cookies();
 
-  const cookie = (await getCookie).get("sso_token");
+  const cookie = getCookie.get("sso_token");
   if (cookie?.name && cookie.value) {
     const tokenDycript = AES.decrypt(
       cookie.value,
@@ -16,5 +16,14 @@ export default async function getSession() {
       cookie,
       decoded,
     };
+  }
+}
+
+export async function clearSession() {
+  const getCookie = await cookies();
+
+  const cookie = getCookie.get("sso_token");
+  if (cookie?.name && cookie.value) {
+    getCookie.delete("sso_token");
   }
 }

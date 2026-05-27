@@ -33,6 +33,16 @@ export async function GET(req: any) {
       maxAge: 3600,
       secure: process.env.NODE_ENV === "production",
     });
+
+    // ACCESS TOKEN PLAIN
+    cookieStore.set({
+      name: "sso_token_plain",
+      value: userinfo.response.access_token,
+      httpOnly: true,
+      sameSite: "lax",
+      maxAge: 3600,
+      secure: process.env.NODE_ENV === "production",
+    });
     return Response.redirect(`${fullHost}/dashboard`, 302);
   }
 

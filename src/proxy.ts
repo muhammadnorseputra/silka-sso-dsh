@@ -7,7 +7,7 @@ export async function proxy(req: NextRequest) {
   const session = await getSession();
   // Check if the token exists and has the necessary properties
   if (!session || !session.cookie.name) {
-    // Redirect to the homepage if the session is invalid or missing
+    // Redirect to the homepage if the ses sion is invalid or missing
     return NextResponse.redirect(new URL("/", req.url));
   }
   // Proceed with the request if the session is valid

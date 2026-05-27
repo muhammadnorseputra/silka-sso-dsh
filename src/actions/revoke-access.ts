@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import RevokeToken, { RevokeTokenChannel } from "@/data/revoke-token";
 import { AES, enc } from "crypto-js";
 import { jwtDecode, JwtPayload } from "jwt-decode";
+import { revalidateTag } from "next/cache";
 
 interface Payload extends JwtPayload {
   data: { nip: string } & Record<string, unknown>;
@@ -44,7 +45,6 @@ export async function BackChannel() {
   const accessToken = cookieStore.get("sso_token")?.value as string;
 
   const revoke = await RevokeTokenChannel(accessToken);
-
   return {
     status: revoke.response.status,
     message: revoke.response.message,
