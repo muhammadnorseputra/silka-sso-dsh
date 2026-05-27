@@ -1,4 +1,5 @@
 import AccessToken from "@/data/access-token";
+import { createSession } from "@/services/session-store";
 import { AES } from "crypto-js";
 import { cookies } from "next/headers";
 
@@ -43,6 +44,8 @@ export async function GET(req: any) {
       maxAge: 3600,
       secure: process.env.NODE_ENV === "production",
     });
+
+    createSession({ token: userinfo.response.access_token });
     return Response.redirect(`${fullHost}/dashboard`, 302);
   }
 
