@@ -62,7 +62,7 @@ export function DashboardHeader({ user }: { user: any }) {
                       return result.message;
                     }
                     window.location.href =
-                      `${process.env.NEXT_PUBLIC_LOGOUT_URL}/redirecting` ||
+                      `${process.env.NEXT_PUBLIC_LOGOUT_URL}/checking` ||
                       "http://localhost:3000";
                     return result.message;
                   },
