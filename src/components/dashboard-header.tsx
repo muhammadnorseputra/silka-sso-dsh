@@ -10,7 +10,7 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from "@heroui/react";
-import { BackChannel, RevokeAccess } from "@/actions/revoke-access";
+import { RevokeAccess } from "@/actions/revoke-access";
 import toast from "react-hot-toast";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

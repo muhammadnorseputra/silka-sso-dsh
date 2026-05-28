@@ -1,5 +1,4 @@
 import AccessToken from "@/data/access-token";
-import { createSession } from "@/services/session-store";
 import { AES } from "crypto-js";
 import { cookies } from "next/headers";
 
@@ -29,9 +28,7 @@ export async function GET(req: any) {
     cookieStore.set({
       name: "sso_token",
       domain:
-        process.env.NODE_ENV === "production"
-          ? "silka-sso-panel.vercel.app"
-          : "localhost",
+        process.env.NODE_ENV === "production" ? ".vercel.app" : "localhost",
       value: tokenEnkripsi.toString(),
       httpOnly: true,
       sameSite: "strict",
@@ -43,9 +40,7 @@ export async function GET(req: any) {
     cookieStore.set({
       name: "sso_token_plain",
       domain:
-        process.env.NODE_ENV === "production"
-          ? "silka-sso-panel.vercel.app"
-          : "localhost",
+        process.env.NODE_ENV === "production" ? ".vercel.app" : "localhost",
       value: userinfo.response.access_token,
       httpOnly: true,
       sameSite: "strict",
@@ -53,7 +48,6 @@ export async function GET(req: any) {
       secure: process.env.NODE_ENV === "production",
     });
 
-    createSession({ token: userinfo.response.access_token });
     return Response.redirect(`${fullHost}/dashboard`, 302);
   }
 

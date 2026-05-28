@@ -13,7 +13,7 @@ export default async function Layout({
 
   return (
     <div className="flex h-screen bg-background">
-      <DashboardSidebar />
+      <DashboardSidebar isOpen={false} />
       <div className="flex flex-col flex-1 overflow-hidden">
         <DashboardHeader user={users} />
         {children}
