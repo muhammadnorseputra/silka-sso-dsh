@@ -6,6 +6,8 @@ export default async function getSession() {
   const getCookie = await cookies();
 
   const cookie = getCookie.get("sso_token");
+  const token_plan = getCookie.get("sso_token_plain")?.value as string;
+
   if (cookie?.name && cookie.value) {
     const tokenDycript = AES.decrypt(
       cookie.value,
@@ -15,6 +17,7 @@ export default async function getSession() {
     return {
       cookie,
       decoded,
+      token_plan,
     };
   }
 }

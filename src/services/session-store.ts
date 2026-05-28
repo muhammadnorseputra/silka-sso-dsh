@@ -1,3 +1,6 @@
+import UserInfo from "@/data/user-info";
+import { cookies } from "next/headers";
+
 type Session = {
   token: string;
 };
@@ -14,4 +17,21 @@ export function getSessionMemory(token: string) {
 
 export function removeSession(token: string) {
   sessions.delete(token);
+}
+
+export async function getSessionFromDatabase(token: string) {
+  "use server";
+  const cookieLocal = await cookies();
+  const session =
+    token || (cookieLocal.get("sso_token_plain")?.value as string);
+
+  const sessionDB = await UserInfo({
+    access_token: session,
+  });
+
+  if (!sessionDB.response.status) {
+    return sessionDB.response.status;
+  }
+
+  return true;
 }

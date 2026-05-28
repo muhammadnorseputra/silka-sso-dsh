@@ -1,8 +1,10 @@
 import getSession from "@/services/session";
+import { getSessionFromDatabase } from "@/services/session-store";
 import { permanentRedirect, unauthorized } from "next/navigation";
 
 export default async function Home() {
-  const session = await getSession();
+  const token = await getSession();
+  const session = await getSessionFromDatabase(token?.token_plan as string);
 
   if (session) {
     return permanentRedirect("/dashboard");
