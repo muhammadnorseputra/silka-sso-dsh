@@ -27,8 +27,6 @@ export async function GET(req: any) {
     // ACCESS TOKEN ENKRIPSI
     cookieStore.set({
       name: "sso_token",
-      domain:
-        process.env.NODE_ENV === "production" ? ".vercel.app" : "localhost",
       value: tokenEnkripsi.toString(),
       httpOnly: true,
       sameSite: "strict",
@@ -39,8 +37,6 @@ export async function GET(req: any) {
     // ACCESS TOKEN PLAIN
     cookieStore.set({
       name: "sso_token_plain",
-      domain:
-        process.env.NODE_ENV === "production" ? ".vercel.app" : "localhost",
       value: userinfo.response.access_token,
       httpOnly: true,
       sameSite: "strict",
