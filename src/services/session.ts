@@ -1,3 +1,5 @@
+"use server";
+
 import { cookies } from "next/headers";
 import { jwtDecode, JwtPayload } from "jwt-decode";
 import { AES, enc } from "crypto-js";
@@ -6,7 +8,7 @@ export default async function getSession() {
   const getCookie = await cookies();
 
   const cookie = getCookie.get("sso_token");
-  const token_plan = getCookie.get("sso_token_plain")?.value as string;
+  const access_token = getCookie.get("sso_token_plain")?.value as string;
 
   if (cookie?.name && cookie.value) {
     const tokenDycript = AES.decrypt(
@@ -17,7 +19,7 @@ export default async function getSession() {
     return {
       cookie,
       decoded,
-      token_plan,
+      access_token,
     };
   }
 }
