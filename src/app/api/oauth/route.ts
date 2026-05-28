@@ -28,6 +28,10 @@ export async function GET(req: any) {
     // ACCESS TOKEN ENKRIPSI
     cookieStore.set({
       name: "sso_token",
+      domain:
+        process.env.NODE_ENV === "production"
+          ? ".silka-sso-panel.vercel.app"
+          : "localhost",
       value: tokenEnkripsi.toString(),
       httpOnly: true,
       sameSite: "lax",
@@ -38,6 +42,10 @@ export async function GET(req: any) {
     // ACCESS TOKEN PLAIN
     cookieStore.set({
       name: "sso_token_plain",
+      domain:
+        process.env.NODE_ENV === "production"
+          ? ".silka-sso-panel.vercel.app"
+          : "localhost",
       value: userinfo.response.access_token,
       httpOnly: true,
       sameSite: "lax",
