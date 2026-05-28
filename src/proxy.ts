@@ -8,7 +8,7 @@ export async function proxy(req: NextRequest) {
   const sessionFromCookie = await getSession();
 
   const sessionFromDB = await getSessionFromDatabase(
-    sessionFromCookie?.token_plan as string,
+    sessionFromCookie?.access_token as string,
   );
 
   if (!sessionFromDB) {
