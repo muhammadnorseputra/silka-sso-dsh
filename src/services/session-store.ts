@@ -23,7 +23,7 @@ export async function getSessionFromDatabase(token: string) {
   "use server";
   const cookieLocal = await cookies();
   const session =
-    token || (cookieLocal.get("sso_token_plain")?.value as string);
+    token || (cookieLocal.get("panel_sso_token_plain")?.value as string);
 
   const sessionDB = await UserInfo({
     access_token: session,

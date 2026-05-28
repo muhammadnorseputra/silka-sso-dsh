@@ -13,8 +13,8 @@ export async function proxy(req: NextRequest) {
 
   if (!sessionFromDB) {
     const res = NextResponse.redirect(new URL("/", req.url));
-    res.cookies.delete("sso_token");
-    res.cookies.delete("sso_token_plain");
+    res.cookies.delete("panel_sso_token");
+    res.cookies.delete("panel_sso_token_plain");
     return res;
   }
 

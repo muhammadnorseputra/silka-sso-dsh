@@ -14,7 +14,7 @@ export async function RevokeAccess() {
   const cookieStore = await cookies();
 
   // access_token
-  const accessToken = cookieStore.get("sso_token");
+  const accessToken = cookieStore.get("panel_sso_token");
   const getToken = AES.decrypt(
     accessToken?.value as string,
     process.env.KEY_PASSPHRASE as string,
@@ -30,7 +30,7 @@ export async function RevokeAccess() {
     };
   }
 
-  cookieStore.delete("sso_token");
+  cookieStore.delete("panel_sso_token");
   cookieStore.delete("sso_code");
   return {
     status: revoke.response.status,
@@ -42,7 +42,7 @@ export async function BackChannel() {
   const cookieStore = await cookies();
 
   // access_token
-  const accessToken = cookieStore.get("sso_token")?.value as string;
+  const accessToken = cookieStore.get("panel_sso_token")?.value as string;
 
   const revoke = await RevokeTokenChannel(accessToken);
   return {

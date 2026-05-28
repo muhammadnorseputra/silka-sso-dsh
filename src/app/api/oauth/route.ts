@@ -26,20 +26,20 @@ export async function GET(req: any) {
     );
     // ACCESS TOKEN ENKRIPSI
     cookieStore.set({
-      name: "sso_token",
+      name: "panel_sso_token",
       value: tokenEnkripsi.toString(),
       httpOnly: true,
-      sameSite: "strict",
+      sameSite: "lax",
       maxAge: 3600,
       secure: process.env.NODE_ENV === "production",
     });
 
     // ACCESS TOKEN PLAIN
     cookieStore.set({
-      name: "sso_token_plain",
+      name: "panel_sso_token_plain",
       value: userinfo.response.data.access_token,
       httpOnly: true,
-      sameSite: "strict",
+      sameSite: "lax",
       maxAge: 3600,
       secure: process.env.NODE_ENV === "production",
     });
