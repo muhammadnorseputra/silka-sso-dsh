@@ -2,7 +2,7 @@
 
 import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
-import { removeSession } from "@/services/session-store";
+import { AES, enc } from "crypto-js";
 
 const LOGOUT_SECRET_KEY = process.env.NEXT_PUBLIC_LOGOUT_SECRET_KEY as string;
 
@@ -18,8 +18,13 @@ export async function POST(request: Request) {
       );
     }
 
+    const decryptedToken = AES.decrypt(
+      logout_token,
+      process.env.KEY_PASSPHRASE as string,
+    ).toString(enc.Utf8);
+
     // 2. Verifikasi token (sederhana, hanya cek kesamaan dengan secret key)
-    const payload = jwt.verify(logout_token, LOGOUT_SECRET_KEY);
+    const payload = jwt.verify(decryptedToken, LOGOUT_SECRET_KEY);
 
     if (!payload) {
       return NextResponse.json(
@@ -33,7 +38,8 @@ export async function POST(request: Request) {
       success: true,
       message: "SSO Logout Berhasil",
     });
-    removeSession(payload as string);
+    response.cookies.delete("panel_sso_token");
+    response.cookies.delete("panel_sso_token_plain");
     return response;
   } catch (error) {
     return NextResponse.json(

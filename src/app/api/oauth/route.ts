@@ -29,9 +29,9 @@ export async function GET(req: any) {
       name: "panel_sso_token",
       value: tokenEnkripsi.toString(),
       httpOnly: true,
-      sameSite: "lax",
       maxAge: 3600,
-      secure: process.env.NODE_ENV === "production",
+      secure: process.env.NODE_ENV === "production" ? true : false,
+      sameSite: "lax",
     });
 
     // ACCESS TOKEN PLAIN
@@ -39,9 +39,9 @@ export async function GET(req: any) {
       name: "panel_sso_token_plain",
       value: userinfo.response.data.access_token,
       httpOnly: true,
-      sameSite: "lax",
       maxAge: 3600,
-      secure: process.env.NODE_ENV === "production",
+      secure: process.env.NODE_ENV === "production" ? true : false,
+      sameSite: "lax",
     });
 
     return Response.redirect(`${fullHost}/dashboard`, 302);

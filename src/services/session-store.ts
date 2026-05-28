@@ -15,10 +15,6 @@ export function getSessionMemory(token: string) {
   return sessions.get(token);
 }
 
-export function removeSession(token: string) {
-  sessions.delete(token);
-}
-
 export async function getSessionFromDatabase(token: string) {
   "use server";
   const cookieLocal = await cookies();

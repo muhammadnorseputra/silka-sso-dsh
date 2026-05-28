@@ -4,7 +4,6 @@ import { cookies } from "next/headers";
 import RevokeToken, { RevokeTokenChannel } from "@/data/revoke-token";
 import { AES, enc } from "crypto-js";
 import { jwtDecode, JwtPayload } from "jwt-decode";
-import { revalidateTag } from "next/cache";
 
 interface Payload extends JwtPayload {
   data: { nip: string } & Record<string, unknown>;
@@ -31,7 +30,7 @@ export async function RevokeAccess() {
   }
 
   cookieStore.delete("panel_sso_token");
-  cookieStore.delete("sso_code");
+  cookieStore.delete("panel_sso_token_plain");
   return {
     status: revoke.response.status,
     message: revoke.response.message,
@@ -42,7 +41,7 @@ export async function BackChannel() {
   const cookieStore = await cookies();
 
   // access_token
-  const accessToken = cookieStore.get("panel_sso_token")?.value as string;
+  const accessToken = cookieStore.get("panel_sso_token_plain")?.value as string;
 
   const revoke = await RevokeTokenChannel(accessToken);
   return {
