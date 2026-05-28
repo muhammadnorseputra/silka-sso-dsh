@@ -1,4 +1,4 @@
-import AccessToken from "@/data/access-token";
+import CodeVerify from "@/data/code-verify";
 import { AES } from "crypto-js";
 import { cookies } from "next/headers";
 
@@ -18,10 +18,10 @@ export async function GET(req: any) {
     );
   }
 
-  const userinfo = await AccessToken(code);
+  const userinfo = await CodeVerify(code);
   if (userinfo.response.status) {
     const tokenEnkripsi = AES.encrypt(
-      userinfo.response.access_token,
+      userinfo.response.data.access_token,
       process.env.KEY_PASSPHRASE as string,
     );
     // ACCESS TOKEN ENKRIPSI
@@ -37,7 +37,7 @@ export async function GET(req: any) {
     // ACCESS TOKEN PLAIN
     cookieStore.set({
       name: "sso_token_plain",
-      value: userinfo.response.access_token,
+      value: userinfo.response.data.access_token,
       httpOnly: true,
       sameSite: "strict",
       maxAge: 3600,
