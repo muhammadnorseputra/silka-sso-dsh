@@ -30,11 +30,11 @@ export async function GET(req: any) {
       name: "sso_token",
       domain:
         process.env.NODE_ENV === "production"
-          ? ".silka-sso-panel.vercel.app"
+          ? "silka-sso-panel.vercel.app"
           : "localhost",
       value: tokenEnkripsi.toString(),
       httpOnly: true,
-      sameSite: "lax",
+      sameSite: "strict",
       maxAge: 3600,
       secure: process.env.NODE_ENV === "production",
     });
@@ -44,11 +44,11 @@ export async function GET(req: any) {
       name: "sso_token_plain",
       domain:
         process.env.NODE_ENV === "production"
-          ? ".silka-sso-panel.vercel.app"
+          ? "silka-sso-panel.vercel.app"
           : "localhost",
       value: userinfo.response.access_token,
       httpOnly: true,
-      sameSite: "lax",
+      sameSite: "strict",
       maxAge: 3600,
       secure: process.env.NODE_ENV === "production",
     });
