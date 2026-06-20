@@ -1,6 +1,7 @@
 "use client";
 
 import { Button, Spinner } from "@heroui/react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -29,7 +30,7 @@ export default function LoadingScreen({
   title = "Tunggu sebentar",
   poweredByLabel = "by",
   redirectUrl,
-  redirectDelay = 3000,
+  redirectDelay = 2000,
   timeoutMs = 8000,
 }: LoadingScreenProps) {
   const router = useRouter();
@@ -39,9 +40,9 @@ export default function LoadingScreen({
   React.useEffect(() => {
     const redirectTimer = setTimeout(() => {
       redirectTriggeredRef.current = true;
-      router.replace(redirectUrl);
+        router.replace(redirectUrl);
     }, redirectDelay);
- 
+
     // Jika setelah redirect ditrigger halaman ini masih tampil melewati
     // timeoutMs, kemungkinan redirect gagal (mis. blokir popup/jaringan
     // putus) — tampilkan opsi refresh manual ke pengguna.
@@ -50,13 +51,13 @@ export default function LoadingScreen({
         setHasIssue(true);
       }
     }, timeoutMs);
- 
+
     return () => {
       clearTimeout(redirectTimer);
       clearTimeout(issueTimer);
     };
   }, [router, redirectUrl, redirectDelay, timeoutMs]);
- 
+
   const handleRetry = () => {
     setHasIssue(false);
     redirectTriggeredRef.current = false;
@@ -84,7 +85,7 @@ export default function LoadingScreen({
             size="lg"
             classNames={{
               circle1: "border-b-blue-600",
-              circle2: "border-b-blue-600",
+              circle2: "border-b-blue-400",
             }}
           />
         </div>
@@ -131,7 +132,7 @@ export default function LoadingScreen({
 
         {/* Logo instansi */}
         <div className="flex items-center justify-center gap-3">
-          <KemnakerLogo className="h-9 w-9 shrink-0 text-blue-900" />
+          <BalanganLogo />
           <div className="text-left leading-[1.15]">
             <p className="text-[11px] font-bold tracking-wide text-blue-950 sm:text-xs">
               PEMERINTAH
@@ -153,17 +154,14 @@ export default function LoadingScreen({
  * Logo "pinwheel" Kemnaker disederhanakan jadi SVG vektor
  * agar tajam di semua resolusi (ganti dengan aset resmi bila tersedia).
  */
-function KemnakerLogo({ className }: { className?: string }) {
+function BalanganLogo({ className = '' }: { className?: string }) {
   return (
-    <svg viewBox="0 0 100 100" fill="currentColor" className={className}>
-      <g>
-        {[0, 90, 180, 270].map((rotation) => (
-          <g key={rotation} transform={`rotate(${rotation} 50 50)`}>
-            <path d="M50 50 L62 12 A14 14 0 1 1 38 12 Z" />
-          </g>
-        ))}
-        <circle cx="50" cy="50" r="9" />
-      </g>
-    </svg>
+    <Image
+      src={"/logo.png"}
+      alt={"Logo Balangan"}
+      width={40}
+      height={80}
+      className={className}
+    />
   );
 }
