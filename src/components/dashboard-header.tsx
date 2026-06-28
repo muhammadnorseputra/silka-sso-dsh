@@ -37,9 +37,11 @@ export function DashboardHeader({ user }: { user: any }) {
             <Avatar
               isBordered
               as="button"
-              name="John Doe"
+              fallback={user?.data.name}
+              name={user?.data.name}
               size="sm"
               src={user?.data.picture}
+              alt={user?.data.name}
             />
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
