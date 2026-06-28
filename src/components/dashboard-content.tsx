@@ -2,7 +2,6 @@
 
 import { SSOAppGrid } from "@/components/sso-app-grid";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function DashboardContent({ clients }: { clients: any }) {
   return (
     <main className="flex-1 overflow-y-auto p-4 sm:p-6">
